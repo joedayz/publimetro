@@ -7,5 +7,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
+    <style name="SplashTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+    </style>
 
 </resources>
