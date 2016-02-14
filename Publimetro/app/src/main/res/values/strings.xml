@@ -25,9 +25,9 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Comercios</item>
-        <item >Ubicación</item>
-        <item >Salir</item>
+        <item>Comercios</item>
+        <item>Ubicación</item>
+        <item>Salir</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -37,6 +37,7 @@
         <item>@drawable/ic_configuracion</item>
         <item>@drawable/ic_salir</item>
     </array>
+    <string name="title_activity_splash">SplashActivity</string>
 
 
 </resources>
