@@ -10,4 +10,19 @@
     <style name="SplashTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
     </style>
 
+    <style name="UbicationTheme" parent="AppBaseTheme">
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">#FFFFFF</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="MyActionBarTheme">
+        <item name="android:background">#E19300</item>
+    </style>
+
+
 </resources>

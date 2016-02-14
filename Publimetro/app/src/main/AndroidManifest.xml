@@ -28,7 +28,9 @@
         </activity>
         <activity
             android:name=".controller.SeleccionaUbicacionActivity"
-            android:label="@string/title_activity_selecciona_ubicacion"></activity>
+            android:label="@string/title_activity_selecciona_ubicacion" android:theme="@style/UbicationTheme">
+
+        </activity>
     </application>
 
 </manifest>
