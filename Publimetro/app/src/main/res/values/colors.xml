@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="list_item_title">#fff</color>
+    <color name="list_background">#000000</color>
+    <color name="list_background_pressed">#992416</color>
+    <color name="list_divider">#FFFFFF</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+
+    <color name="genre">#666666</color>
+    <color name="year">#888888</color>
+    <color name="list_divider_item">#E19300</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+
+    <color name="transparent">#00000000</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="white2">#E19300</color>
+
+    <color name="black">#000000</color>
+    <color name="blackDesc">#807D7D</color>
+
+
+
+    <color name="app_background">#E19300</color>
+    <color name="light_red">#ba0305</color>
+    <color name="dark_red">#9d0c0f</color>
+    <color name="text_tab_selected">#5d5d5d</color>
+    <color name="text_tab_unselected">#838183</color>
+
 </resources>
