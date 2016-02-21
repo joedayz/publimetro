@@ -116,7 +116,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            displayFragment(0);
         }
 
     }
@@ -141,7 +141,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(fragment instanceof EstablecimientosFragment) {
-            displayView(0);
+            displayFragment(0);
         }
         return false;
     }
@@ -153,7 +153,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             // display view for selected nav drawer item
-            displayView(position);
+            displayFragment(position);
         }
     }
 
@@ -163,7 +163,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
         getActionBar().setTitle(mTitle);
     }
 
-    private void displayView(int position) {
+    private void displayFragment(int position) {
         Fragment fragment = null;
         switch (position) {
             case 0:
@@ -230,11 +230,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
-
-
         return true;
-
-
 
     }
 
@@ -250,7 +246,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
                 onSearchRequested();
                 return true;
             case R.id.mapa:
-                displayView(3);
+                displayFragment(3);
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
