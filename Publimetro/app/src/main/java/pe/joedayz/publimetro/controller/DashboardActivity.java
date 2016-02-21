@@ -1,6 +1,7 @@
 package pe.joedayz.publimetro.controller;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -22,23 +23,42 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 
+import pe.joedayz.publimetro.AppController;
 import pe.joedayz.publimetro.R;
 import pe.joedayz.publimetro.adapter.NavDrawerListAdapter;
 import pe.joedayz.publimetro.controller.fragment.ConfiguracionFragment;
 import pe.joedayz.publimetro.controller.fragment.EstablecimientosFragment;
 import pe.joedayz.publimetro.model.Ciudad;
 import pe.joedayz.publimetro.model.NavDrawerItem;
+import pe.joedayz.publimetro.model.Rubro;
 
 
 public class DashboardActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 
     private static String TAG = DashboardActivity.class.getSimpleName();
+
+    private String urlJsonArry = "http://www.publiguiaperu.com/servicioweb/servicioWeb2.0.php?token=000&method=getRubrosEstablecimientos&idUbicacion=";
+
+
     private Ciudad ciudad;
 
 
@@ -57,6 +77,18 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
     /*Nav Drawer end*/
 
+
+    /*
+    Carga de Rubros
+
+     */
+
+    // Progress dialog
+    private ProgressDialog pDialog;
+    // temporary string to show the parsed response
+    private String jsonResponse;
+    private List<Rubro> rubrosList = new ArrayList<Rubro>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +96,19 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
 
         ciudad = (Ciudad) getIntent().getSerializableExtra("ciudadSeleccionada");
+
+        Rubro rubro = new Rubro();
+        rubro.setCodigo("0");
+        rubro.setDescripcion(ciudad.getDescripcion() + " - Todos");
+        rubrosList.add(rubro);
+
+
+        makeJsonRubrosRequest();
+
+        ArrayAdapter<Rubro> ad = new ArrayAdapter<Rubro>(this, R.layout.custom_spinner_rubros, rubrosList);
+        ad.setDropDownViewResource(R.layout.custom_spinner_popup);
+
+        getActionBar().setListNavigationCallbacks(ad, this);
 
         mTitle = mDrawerTitle = getTitle();
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -90,7 +135,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
 
         getActionBar().setDisplayShowTitleEnabled(false);
-        //getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
@@ -114,12 +159,94 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+
+
+
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             displayFragment(0);
         }
 
     }
+
+    private void makeJsonRubrosRequest() {
+
+        showpDialog();
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                urlJsonArry + ciudad.getCodigo(), null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                try {
+                    JSONObject lista = response.getJSONObject("lista");
+                    JSONArray rubros = lista.getJSONArray("rubro");
+
+                    jsonResponse = "";
+
+                    for (int i = 0; i < rubros.length(); i++) {
+                        JSONObject rubroJSON = (JSONObject) rubros
+                                .get(i);
+                        Rubro rubro = new Rubro();
+                        rubro.setCodigo(rubroJSON.getString("codigo"));
+                        rubro.setDescripcion(rubroJSON.getString("descripcion"));
+
+
+                        rubrosList.add(rubro);
+
+                        jsonResponse += "rubro: " + rubro + "\n\n";
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),
+                            "Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+                hidepDialog();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                hidepDialog();
+            }
+        });
+
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hidepDialog();
+
+    }
+    private void showpDialog() {
+        if(pDialog==null){
+            pDialog = new ProgressDialog(this);
+            pDialog.setMessage("Por favor, espere...");
+            pDialog.setCancelable(false);
+        }
+
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -136,15 +263,18 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
+        getIntent().putExtra("rubro", rubrosList.get(itemPosition));
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(fragment instanceof EstablecimientosFragment) {
             displayFragment(0);
         }
         return false;
     }
+
 
 
     private class SlideMenuClickListener implements
