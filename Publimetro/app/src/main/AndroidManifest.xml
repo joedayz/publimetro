@@ -9,28 +9,36 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" android:name=".AppController">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".controller.SplashActivity"
             android:label="@string/title_activity_splash"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".controller.SeleccionaUbicacionActivity"
-            android:label="@string/title_activity_selecciona_ubicacion" android:theme="@style/UbicationTheme">
-
-        </activity>
+            android:label="@string/title_activity_selecciona_ubicacion"
+            android:theme="@style/UbicationTheme"></activity>
+        <activity
+            android:name=".controller.DashboardActivity"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/MyTheme" android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
     </application>
 
 </manifest>

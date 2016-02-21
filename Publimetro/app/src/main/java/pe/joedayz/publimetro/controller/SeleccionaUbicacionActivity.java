@@ -1,9 +1,12 @@
 package pe.joedayz.publimetro.controller;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -63,6 +66,28 @@ public class SeleccionaUbicacionActivity extends Activity {
         adapter.setDropDownViewResource(R.layout.custom_spinner_popup);
 
         cboDistrito.setAdapter(adapter);
+
+        cboDistrito.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Ciudad ciudadSeleccionada = (Ciudad) parent.getItemAtPosition(position);
+
+                if (!ciudadSeleccionada.getDescripcion().equals(getString(R.string.selecciona_tu_localidad))) {
+
+                    Intent irDashboarActivity = new Intent(SeleccionaUbicacionActivity.this, DashboardActivity.class);
+                    irDashboarActivity.putExtra("ciudadSeleccionada", ciudadSeleccionada);
+                    startActivity(irDashboarActivity);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
