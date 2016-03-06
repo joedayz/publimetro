@@ -4,10 +4,12 @@ package pe.joedayz.publimetro.controller.fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -73,6 +75,25 @@ public class EstablecimientosFragment extends Fragment {
 
         JsonObjectRequest jsonObjReq = getEstablecimientoPorRubro();
         AppController.getInstance().addToRequestQueue(jsonObjReq);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                Establecimiento establecimiento = (Establecimiento) adapterView.getItemAtPosition(position);
+
+                Fragment fragment = new DetalleEstablecimientoFragment();
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, fragment).commit();
+
+                getActivity().getIntent().putExtra("establecimiento", establecimiento);
+
+                fragment.setArguments(getActivity().getIntent().getExtras());
+            }
+        });
+
 
         return rootView;
     }
