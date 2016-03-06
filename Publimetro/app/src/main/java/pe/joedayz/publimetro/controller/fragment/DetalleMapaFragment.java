@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -87,6 +88,7 @@ public class DetalleMapaFragment extends Fragment
         // Gets to GoogleMap from the MapView and does initialization stuff
         if (mapView != null) {
             mapa = mapView.getMap();
+            mapa.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
             mapa.getUiSettings().setMyLocationButtonEnabled(false);
             mapa.setMyLocationEnabled(true);
         }
@@ -272,5 +274,28 @@ public class DetalleMapaFragment extends Fragment
         }
     }
 
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        boolean not_first_time_showing_info_window;
+
+        public MarkerInfoWindowAdapter() {
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            View v = getActivity().getLayoutInflater().inflate(R.layout.infowindow_only_address_layout, null);
+
+            MarkerObject markerObject = markersAndEstablecimientos.get(marker.getId());
+
+            TextView address = (TextView) v.findViewById(R.id.establecimiento_address);
+            address.setText(markerObject.getUbicacion().getDireccion());
+            return v;
+        }
+    }
 
 }
