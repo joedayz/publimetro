@@ -49,6 +49,7 @@ import pe.joedayz.publimetro.AppController;
 import pe.joedayz.publimetro.R;
 import pe.joedayz.publimetro.adapter.NavDrawerListAdapter;
 import pe.joedayz.publimetro.controller.fragment.ConfiguracionFragment;
+import pe.joedayz.publimetro.controller.fragment.EstablecimientosCercanosFragment;
 import pe.joedayz.publimetro.controller.fragment.EstablecimientosFragment;
 import pe.joedayz.publimetro.model.Ciudad;
 import pe.joedayz.publimetro.model.NavDrawerItem;
@@ -315,6 +316,10 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(homeIntent);
                 break;
+            case 3:
+                fragment = new EstablecimientosCercanosFragment();
+                fragment.setArguments(getIntent().getExtras());
+                break;
             default:
                 break;
         }
@@ -325,9 +330,12 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
                     .replace(R.id.frame_container, fragment).commit();
 
 
-            mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);
-            setTitle(navMenuTitles[position]);
+            if(!(fragment instanceof EstablecimientosCercanosFragment)
+                    ) {
+                mDrawerList.setItemChecked(position, true);
+                mDrawerList.setSelection(position);
+                setTitle(navMenuTitles[position]);
+            }
 
 
             mDrawerLayout.closeDrawer(mDrawerList);
@@ -441,6 +449,16 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
     private void showResults(String query) {
         getIntent().putExtra("queryText", query);
         displayFragment(0);
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+
+        displayFragment(0);
+
 
     }
 
