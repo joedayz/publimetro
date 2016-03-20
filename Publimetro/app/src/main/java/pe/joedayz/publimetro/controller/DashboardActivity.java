@@ -51,6 +51,7 @@ import pe.joedayz.publimetro.adapter.NavDrawerListAdapter;
 import pe.joedayz.publimetro.controller.fragment.ConfiguracionFragment;
 import pe.joedayz.publimetro.controller.fragment.EstablecimientosCercanosFragment;
 import pe.joedayz.publimetro.controller.fragment.EstablecimientosFragment;
+import pe.joedayz.publimetro.controller.fragment.OfertasCercanasFragment;
 import pe.joedayz.publimetro.model.Ciudad;
 import pe.joedayz.publimetro.model.NavDrawerItem;
 import pe.joedayz.publimetro.model.Rubro;
@@ -320,6 +321,10 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
                 fragment = new EstablecimientosCercanosFragment();
                 fragment.setArguments(getIntent().getExtras());
                 break;
+            case 4:
+                fragment = new OfertasCercanasFragment();
+                fragment.setArguments(getIntent().getExtras());
+                break;
             default:
                 break;
         }
@@ -331,7 +336,7 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
 
 
             if(!(fragment instanceof EstablecimientosCercanosFragment)
-                    ) {
+                    && !(fragment instanceof OfertasCercanasFragment)) {
                 mDrawerList.setItemChecked(position, true);
                 mDrawerList.setSelection(position);
                 setTitle(navMenuTitles[position]);
@@ -422,6 +427,11 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
         SpannableString s2 = new SpannableString(mapaMenuItem.getTitle());
         s2.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s2.length(), 0);
         mapaMenuItem.setTitle(s2);
+
+        MenuItem ofertaMenuItem = menu.findItem(R.id.ofertas);
+        SpannableString s3 = new SpannableString(ofertaMenuItem.getTitle());
+        s3.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s3.length(), 0);
+        ofertaMenuItem.setTitle(s3);
 
 
         return super.onPrepareOptionsMenu(menu);
