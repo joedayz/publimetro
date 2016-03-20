@@ -2,6 +2,8 @@ package pe.joedayz.publimetro.controller;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -25,6 +27,7 @@ import android.widget.AdapterView;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -166,6 +169,8 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
             // on first time display view for first nav item
             displayFragment(0);
         }
+
+        handleIntent(getIntent());
 
     }
 
@@ -360,6 +365,13 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
         return true;
 
     }
@@ -378,11 +390,13 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
             case R.id.mapa:
                 displayFragment(3);
                 return false;
+            case R.id.ofertas:
+                displayFragment(4);
+                return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
     @Override
@@ -405,5 +419,29 @@ public class DashboardActivity extends FragmentActivity implements ActionBar.OnN
         return super.onPrepareOptionsMenu(menu);
     }
 
+
+    //Busqueda por texto
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            showResults(query);
+        }
+    }
+
+    private void showResults(String query) {
+        getIntent().putExtra("queryText", query);
+        displayFragment(0);
+
+    }
 
 }

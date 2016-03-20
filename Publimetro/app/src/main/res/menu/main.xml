@@ -14,4 +14,11 @@
         android:icon="@drawable/ic_room"
         android:title="@string/map_title" />
 
+
+
+    <item
+        android:id="@+id/ofertas"
+        android:icon="@drawable/ic_oferta"
+        android:title="@string/money_title" />
+
 </menu>

@@ -56,8 +56,14 @@
         <activity
             android:name=".controller.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/MyTheme" android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+            android:theme="@style/MyTheme"  android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
     </application>
 
 </manifest>
