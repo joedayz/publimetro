@@ -41,6 +41,7 @@ public class SeleccionaUbicacionActivity extends Activity {
 
     private List<Ciudad> ciudadList = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
