@@ -30,7 +30,7 @@ public class SeleccionaUbicacionActivity extends Activity {
 
     private String urlJsonArry = "http://www.publiguiaperu.com/servicioweb/servicioWeb2.0.php?token=000&method=getUbicacion";
 
-    private Spinner cboCiudad;  //null
+    private Spinner cboCiudad;
 
     private ProgressDialog progressDialog;
 
@@ -52,10 +52,7 @@ public class SeleccionaUbicacionActivity extends Activity {
         cboCiudad = (Spinner) findViewById(R.id.cboCiudad);  // ---> spinner en el layout
 
 
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.por_favor_espere));
-        progressDialog.setCancelable(false);
+        startProgressBar();
 
         makeJsonRequest(); //aqui se llena la lista de ciudades en ciudadList
 
@@ -65,6 +62,12 @@ public class SeleccionaUbicacionActivity extends Activity {
         cboCiudad.setAdapter(adapter);
 
 
+    }
+
+    private void startProgressBar() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.por_favor_espere));
+        progressDialog.setCancelable(false);
     }
 
     private void makeJsonRequest() {
@@ -125,6 +128,7 @@ public class SeleccionaUbicacionActivity extends Activity {
             }
         });
 
+        //no omitirla jamas cuando uses volley
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 

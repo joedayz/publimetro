@@ -15,10 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cboCiudad"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:spinnerMode="dropdown"
-        android:popupBackground="#000000"/>
+        android:popupBackground="#000000"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
